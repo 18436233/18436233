@@ -1,0 +1,22 @@
+package com.yychatclient.view;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+public class ClientLogin extends JFrame{//类名：ClientLogin，模板，对象的模板
+	
+	JLabel jlbl1;//定义标签
+	
+	public ClientLogin(){//构造方法
+		jlbl1=new JLabel(new ImageIcon("images/tou.gif"));
+		this.add(jlbl1);
+		
+	}
+	
+
+	public static void main(String[] args) {
+		ClientLogin clientLogin=new ClientLogin();//创建对象，构造方法
+	}
+
+}

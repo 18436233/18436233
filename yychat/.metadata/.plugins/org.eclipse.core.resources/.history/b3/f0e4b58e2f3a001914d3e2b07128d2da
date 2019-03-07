@@ -1,0 +1,14 @@
+package com.yychatclient.view;
+
+public class ClientLogin {//类名：ClientLogin，模板，对象的模板
+	
+	public ClientLogin(){//构造方法
+		
+	}
+	
+
+	public static void main(String[] args) {
+		ClientLogin clientLogin=new ClientLogin();//创建对象，构造方法
+	}
+
+}

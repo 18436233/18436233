@@ -1,0 +1,35 @@
+package com.yychatclient.view;
+
+import javax.swing.*;
+
+public class ClientLogin extends JFrame{//类名：ClientLogin，模板，对象的模板
+	//定义北部组件
+	JLabel jlbl1;//定义标签
+	
+	//定义南部组件
+	JButton jb1,jb2,jb3;
+	JPanel jp1;//面板，容器
+	
+	public ClientLogin(){//构造方法
+		//创建北部组件
+		jlbl1=new JLabel(new ImageIcon("images/tou.gif"));//标签组件
+		this.add(jlbl1,"North");
+		
+		//创建南部组件
+		jb1=new JButton(new ImageIcon("denglu.gif"));
+		jb2=new JButton(new ImageIcon("zhuce.gif"));
+		jb3=new JButton(new ImageIcon("quxiao.gif"));
+		jp1=new JPanel();
+		
+		
+		this.setSize(350,240);//设置窗口大小
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setVisible(true);		
+	}
+	
+
+	public static void main(String[] args) {
+		ClientLogin clientLogin=new ClientLogin();//创建对象，构造方法
+	}
+
+}
