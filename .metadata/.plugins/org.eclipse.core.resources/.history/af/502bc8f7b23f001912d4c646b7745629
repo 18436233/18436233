@@ -1,0 +1,5 @@
+package com.chatclient.view;
+
+public class ClientFriendList {
+
+}
