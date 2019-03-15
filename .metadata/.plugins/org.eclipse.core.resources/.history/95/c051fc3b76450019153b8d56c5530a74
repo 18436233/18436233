@@ -1,0 +1,74 @@
+package ChatServer;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import javax.swing.*;
+
+public class ChatServer  extends JFrame implements ActionListener,MouseListener{
+		JButton jb1;
+		JButton jb2;
+		JPanel jp;
+	public ChatServer() {
+		jb1=new JButton("启动服务器");
+		jb2=new JButton("停止服务器");
+		jp =new JPanel();
+		jp.add(jb1);
+		jp.add(jb2);
+		this.add(jp);
+		
+		this.setSize(240,240);
+		this.setTitle("YYChat服务器");
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
+		
+		
+		
+		
+	}
+
+	public static void main(String[] args) {
+		ChatServer ChatServer=new ChatServer();
+
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

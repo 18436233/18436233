@@ -1,10 +1,20 @@
 package com.chatclient.view;
-
-import java.awt.*;
+import java.awt.Color;
+import java.awt.GridLayout;
 
 import javax.swing.*;
 
-public class ClientLogin extends JFrame{
+import com.yychat.model.User;
+import com.yychatclient.control.ClientConnet;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import javax.swing.*;
+
+public class ClientLogin extends JFrame implements ActionListener{
 	
 	JLabel jlbl1;
 		
@@ -20,7 +30,7 @@ public class ClientLogin extends JFrame{
 	JButton jb1,jb2,jb3;
 	JPanel jp1;
 	
-	public ClientLogin(){
+	public ClientLogin(String userName){
 
 		jlbl1=new JLabel(new ImageIcon("images/tou.gif"));
 		this.add(jlbl1,"North");
@@ -81,11 +91,35 @@ public class ClientLogin extends JFrame{
 		jp1.add(jb1);jp1.add(jb2);jp1.add(jb3);
 		this.add(jp1,"South" );
 				
+		jb1.addActionListener(this);
 		this.setSize(350,240);
 		this.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
+		this.setLocationRelativeTo(null);
 	}
 	public static void main(String[] args){
-			ClientLogin clientLogin=new ClientLogin();
+			ClientLogin clientLogin=new ClientLogin(null);
+	}
+	
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource()==jb1);{
+			String userName= jtf1.getText();
+			String password=new String(jpf1.getPassword());
+			//创建User对象 
+			User user =new User();
+			user.setUserName(userName);
+			user.setPassWord(password);
+			
+			
+			new ClientConnet().loginValidate(user);
+			new FriendList(userName);
+			this.dispose();
+			
+		}
+		
+		
+		
 	}
 }
