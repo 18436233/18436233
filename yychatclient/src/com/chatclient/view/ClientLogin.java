@@ -4,17 +4,26 @@ import java.awt.GridLayout;
 
 import javax.swing.*;
 
+import com.yychat.model.Message;
 import com.yychat.model.User;
 import com.yychatclient.control.ClientConnet;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.HashMap;
 
 import javax.swing.*;
 
-public class ClientLogin extends JFrame implements ActionListener{
+public class ClientLogin extends JFrame implements ActionListener,KeyListener{
+	public static HashMap hmFirendlist=new HashMap<String,FriendList>();
+	
 	
 	JLabel jlbl1;
 		
@@ -31,21 +40,25 @@ public class ClientLogin extends JFrame implements ActionListener{
 	JPanel jp1;
 	
 	public ClientLogin(String userName){
-
 		jlbl1=new JLabel(new ImageIcon("images/tou.gif"));
 		this.add(jlbl1,"North");
 	
 		
 		//创建中部组建
 		jp2=new JPanel(new GridLayout(3,3));//布局的问题
+
 		jlbl2=new JLabel("嘤嘤号码",JLabel.CENTER);jlbl3=new JLabel("嘤嘤密码",JLabel.CENTER);
 		jlbl4=new JLabel("忘记密码",JLabel.CENTER);
 		jlbl4.setForeground(Color.blue);
 		jlbl5=new JLabel("申请密码保护",JLabel.CENTER);
 		jtf1=new JTextField();
 		jpf1=new JPasswordField();
+		jpf1.addKeyListener(this);
 		jb4=new JButton(new ImageIcon("images/clear.gif"));
-		jcb1=new JCheckBox("隐身登录");jcb2=new JCheckBox("记住密码");
+		jcb1=new JCheckBox("隐身登录");
+		jcb1.addKeyListener(this);
+		jcb2=new JCheckBox("记住密码");
+		jcb2.addKeyListener(this);
 		jp2.add(jlbl2);	jp2.add(jtf1);	jp2.add(jb4);	
 		jp2.add(jlbl3);	jp2.add(jpf1);	jp2.add(jlbl4);
 		jp2.add(jcb1);	jp2.add(jcb2);	jp2.add(jlbl5);	
@@ -85,9 +98,11 @@ public class ClientLogin extends JFrame implements ActionListener{
 		
 		//创建南部组建
 		jb1=new JButton(new ImageIcon("images/denglu.gif"));
+
 		jb2=new JButton(new ImageIcon("images/zhuce.gif"));
 		jb3=new JButton(new ImageIcon("images/quxiao.gif"));
 		jp1=new JPanel();
+
 		jp1.add(jb1);jp1.add(jb2);jp1.add(jb3);
 		this.add(jp1,"South" );
 				
@@ -112,14 +127,88 @@ public class ClientLogin extends JFrame implements ActionListener{
 			user.setUserName(userName);
 			user.setPassWord(password);
 			
+			boolean loginSuccess=new ClientConnet().loginValidate(user);
+			if(loginSuccess){
+				FriendList friendList=new FriendList(userName);
+				hmFirendlist.put(userName, friendList);
+				
+				//1
+				Message mess = new Message();
+				mess.setSender(userName);
+				mess.setReceiver("Sever");
+				mess.setMessageType(Message.message_RequestOnlineFriend);
+				Socket s=(Socket)ClientConnet.hmSocket.get(userName);
+				ObjectOutputStream oos;
+				try {
+					oos=new ObjectOutputStream(s.getOutputStream());
+					oos.writeObject(mess);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				this.dispose();
+				
+			}else{
+				JOptionPane.showMessageDialog(this, "密码错误");
+				
+				
+			}
 			
-			new ClientConnet().loginValidate(user);
-			new FriendList(userName);
-			this.dispose();
-			
+
 		}
 		
 		
+		
+	}
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+		if(arg0.getKeyCode()==KeyEvent.VK_ENTER){
+			String userName= jtf1.getText();
+			String password=new String(jpf1.getPassword());
+			//创建User对象 
+			User user =new User();
+			user.setUserName(userName);
+			user.setPassWord(password);
+			
+			boolean loginSuccess=new ClientConnet().loginValidate(user);
+			if(loginSuccess){
+				FriendList friendList=new FriendList(userName);
+				hmFirendlist.put(userName, friendList);
+				
+				//1
+				Message mess = new Message();
+				mess.setSender(userName);
+				mess.setReceiver("Sever");
+				mess.setMessageType(Message.message_RequestOnlineFriend);
+				Socket s=(Socket)ClientConnet.hmSocket.get(userName);
+				ObjectOutputStream oos;
+				try {
+					oos=new ObjectOutputStream(s.getOutputStream());
+					oos.writeObject(mess);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
+				this.dispose();
+				
+			}else{
+				JOptionPane.showMessageDialog(this, "密码错误");
+				
+		}
+		}
+		
+	}
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
 		
 	}
 }
