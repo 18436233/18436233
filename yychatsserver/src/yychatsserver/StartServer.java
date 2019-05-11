@@ -58,10 +58,10 @@ public class StartServer implements sendMessage {
 		PreparedStatement ptmt=conn.prepareStatement(user_Login_Sql);
 		ptmt.setString(1,userName);
 		ptmt.setString(2,passWord);
-		System.out.println("3");
+		
 		//4、执行查询，返回结果集
 		ResultSet rs =ptmt.executeQuery();
-		
+		System.out.println("3");
 		//5、根据结果集来判断是否能登录
 		boolean loginSuccess =rs.next();
 		
@@ -76,6 +76,20 @@ public class StartServer implements sendMessage {
 			//
 		if(loginSuccess){
 			mess.setMessageType(Message.message_LoginSuccess);//
+			
+			//
+			String friend_Relation_Sql="select slaveuser from relation where majoruser=? and relationtype='1'";
+			ptmt=conn.prepareStatement(friend_Relation_Sql);
+			ptmt.setString(1,userName);
+			rs=ptmt.executeQuery();
+			String friendString="";
+			while(rs.next()){
+				//rs.getString(1);
+				friendString=friendString+rs.getString("slaveuser")+" ";
+			}
+			mess.setContent(friendString);
+			System.out.println(userName+"的relation数据表中好友："+friendString);
+		
 		}else{
 			mess.setMessageType(Message.message_LoginFailure);//
 			
